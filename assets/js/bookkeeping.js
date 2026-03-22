@@ -4,6 +4,40 @@ let transactions = [];
 // Alinan Bilgileri localStorage Uzerinden Kullaniyoruz
 transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
+function menu() {
+  let choise = prompt(
+    "Ön Muhasebe Uygulamasına Hoşgeldiniz!\n\n" +
+    "1- Gelir Ekle\n" +
+    "2- Gider Ekle\n" +
+    "3- Bilanço Göster\n" +
+    "0- Çıkış"
+  );
+
+  switch (choise) {
+    case "1":
+      addIncome();
+      menu();
+      break;
+    case "2":
+      addExpense();
+      menu();
+      break;
+    case "3":
+      showBalance();
+      menu();
+      break;
+    case "0":
+      alert("Çıkış Yapıldı");
+      break;
+    default:
+      alert("Hatalı Seçim");
+      menu();
+      break;
+  }
+}
+
+menu();
+
 // ========================= Gelir Ekleme Fonksiyonu =========================
 function addIncome() {
   let category = prompt("Gelir Kategorisi Giriniz (Maaş, Freelance vs):");
@@ -81,10 +115,10 @@ function showBalance() {
   let totalIncome = 0;
   let totalExpense = 0;
 
-  for (let i=0;i<transactions.length;i++){
+  for (let i = 0; i < transactions.length; i++) {
     if (transactions[i].type === "gelir") {
       totalIncome += transactions[i].amount;
-    } else if (transactions[i].type === "gider"){
+    } else if (transactions[i].type === "gider") {
       totalExpense += transactions[i].amount;
     }
   }
@@ -95,7 +129,3 @@ function showBalance() {
     "Bakiye: " + (totalIncome - totalExpense) + " TL"
   );
 };
-
-addIncome();
-addExpense();
-showBalance();
