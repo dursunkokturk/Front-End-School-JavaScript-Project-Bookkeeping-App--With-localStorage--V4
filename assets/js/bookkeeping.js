@@ -1,8 +1,41 @@
-let transactions = [];
-
 // Gelir Gider Bilgilerini Kullanicidan Aliyoruz
 // Alinan Bilgileri localStorage Uzerinden Kullaniyoruz
 transactions = JSON.parse(localStorage.getItem("transactions")) || [];
+
+function checkPassword() {
+
+  // localStorage Icindeki Password'u Aliyoruz
+  let savePassword = localStorage.getItem("password");
+
+  if (!savePassword) {
+    let newPassword = prompt("Lütfen Bir Şifre Oluşturunuz");
+
+    if (!newPassword || newPassword.trim() === ""){
+      alert("Şifre Boş Bırakılamaz! Lüften Tekrar Deneyiniz");
+      checkPassword();
+      return;
+    }
+    localStorage.setItem("password", newPassword.trim());
+    alert("Şifre Oluşturuldu. Artık Sistemi Giriş Yapabilirsiniz");
+    menu();
+  } else {
+    let userPassword = prompt("Lütfen Şifrenizi Giriniz");
+
+    // Kullanici Sifre Girme Islemini Iptal Ediyor Ise
+    if (userPassword === null) {
+      alert("Uygulama Kapatıldı");
+      return;
+    } 
+    
+    if (userPassword.trim() === savePassword){
+      alert("Giriş Başarılı Hoş Geldiniz");
+      menu();
+    }else {
+      alert("Hatalı Şifre! Tekrar Deneyiniz");
+      checkPassword();
+    }
+  }
+}
 
 function menu() {
   let choise = prompt(
@@ -36,7 +69,7 @@ function menu() {
   }
 }
 
-menu();
+checkPassword();
 
 // ========================= Gelir Ekleme Fonksiyonu =========================
 function addIncome() {
